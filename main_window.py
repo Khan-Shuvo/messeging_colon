@@ -22,7 +22,7 @@ class MainWindow(QMainWindow):
             self.setGeometry(100,100,800,600)
 
             main_widget = QWidget()
-            main_layout =QVBoxLayout()
+            main_layout =QHBoxLayout()
 
             self.sidebar = QWidget()
             sidebar_layout = QVBoxLayout()
@@ -40,6 +40,8 @@ class MainWindow(QMainWindow):
             self.groups_list = QListWidget()
             self.groups_list.itemClicked.connect(self.switch_chat)
             sidebar_layout.addWidget(self.groups_list)
+            
+            self.sidebar.setLayout(sidebar_layout)
             
             self.chat_area = QWidget()
             chat_layout = QVBoxLayout()
