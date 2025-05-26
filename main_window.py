@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import (
-    QMainWindow, QWidget, QVBoxLayout, QLabel, QListWidget, QTextEdit,
+    QMainWindow, QWidget, QVBoxLayout, QLabel, QListWidget, QTextEdit, QMessageBox,
     QLineEdit, QPushButton, QListWidgetItem, QHBoxLayout
 )
 from PyQt6.QtCore import Qt, pyqtSignal
@@ -51,6 +51,22 @@ class MainWindow(QMainWindow):
         self.groups_list = QListWidget()
         self.groups_list.itemClicked.connect(self.switch_chat)
         sidebar_layout.addWidget(self.groups_list)
+
+        self.logout_btn = QPushButton("Logout")
+        self.logout_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #ff4d4d;
+                color: white;
+                padding: 8px;
+                border-radius: 4px;
+                font-weight: bold;    
+            }
+            QPushButton:hover {
+                background-color:#ff1a1a;
+            }
+        """)
+        self.logout_btn.clicked.connect(self.handle_logout)
+        sidebar_layout.addWidget(self.logout_btn)
 
         self.sidebar.setLayout(sidebar_layout)
 
@@ -176,3 +192,16 @@ class MainWindow(QMainWindow):
     def on_user_status_changed(self, user_id, is_online):
         if not self.show_all_users:
             self.load_users()
+
+
+    def handle_logout(self):
+        confirm = QMessageBox.question(self,"logout","Did you want to logout?",QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+
+        if confirm == QMessageBox.StandardButton.Yes:
+            self.db.update_user_status(self.current_user.id, False)
+            self.close()
+
+            if hasattr (self,"Login_signup"):
+                self.Login_signup.login_email.clear()
+                self.Login_signup.login_password.clear()
+                self.Login_signup.show()
