@@ -118,7 +118,60 @@ class MainWindow(QMainWindow):
             self.chat_header.setText(f"Chat with {item.text()}")
 
     def send_message(self):
-        pass  # You can implement this later
+        message_text = self.message_input.text().strip()
+        if not message_text or not self.current_chat:
+            return
+        if self.is_group_chat:
+            self.db.add_message(
+                sender_id = self.current_user.id,
+                group_id = self.current_chat,
+                content = message_text
+            )
+        else:
+            self.db.add_message(
+                sender_id = self.current_user.id,
+                receiver_id = self.current_chat,
+                content = message_text
+            )
+        self.message_input.clear()
+        self.load_messages()
+
+    def load_messages(self):
+        self.chat_display.clear()
+
+        if self.is_group_chat:
+            messages = self.db.get_group_messages(self.current_chat)
+            for msg_data in messages:
+                msg = Message(*msg_data[:7])
+                sender_name = f"{msg_data[7]}{msg_data[8]}"
+                self.append_message(sender_name, msg.content, msg.timestamp,msg.sender_id == self.current_user.id)
+
+        else:
+            messages = self.db.get_messages(self.current_user.id, self.current_chat)
+            for msg_data in messages:
+                msg = Message(*msg_data)
+                sender_name = "you" if msg.sender_id == self.current_user.id else "Them"
+                self.append_message(sender_name, msg.content, msg.timestamp, msg.sender_id == self.current_user.id)
+        
+        self.chat_display.verticalScrollBar().setValue(
+            self.chat_display.verticalScrollBar().maximum()
+        )
+
+    def append_message(self, sender, content, timestamp, is_me):
+        alignment = "right" if is_me else "left"
+        color = "#DCF8C6" if is_me else "#ECECEC"
+        
+        html = f"""
+        <div style='margin: 5px; text-align: {alignment};'>
+            <div style='background: {color}; padding: 8px; border-radius: 8px; 
+                        display: inline-block; max-width: 70%; word-wrap: break-word;'>
+                <small><b>{sender}</b> - {timestamp}</small><br>
+                {content}
+            </div>
+        </div>
+        """
+        
+        self.chat_display.append(html)
 
     def on_user_status_changed(self, user_id, is_online):
         if not self.show_all_users:
