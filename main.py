@@ -17,7 +17,7 @@ class MessagingApp:
         self.login_signup.hide()
         self.mainwindow = MainWindow(self.db, user)
         self.mainwindow.show()
-        print("sussess")
+        
         
 
 if __name__ == "__main__" :
