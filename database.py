@@ -188,3 +188,18 @@ class Database(QObject):
         cursor = self.conn.cursor()
         cursor.execute('SELECT * FROM users WHERE id = ?', (user_id,))
         return cursor.fetchone()
+    
+    def get_all_users(self, exclude_user_id=None):
+        cursor = self.conn.cursor()
+        if exclude_user_id:
+            cursor.execute('''
+            SELECT id, first_name, last_name, email 
+            FROM users 
+            WHERE id != ?
+            ''', (exclude_user_id,))
+        else:
+            cursor.execute('''
+            SELECT id, first_name, last_name, email 
+            FROM users
+            ''')
+        return cursor.fetchall()
