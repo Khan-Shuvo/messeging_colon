@@ -37,12 +37,12 @@ class Login_signup(QMainWindow):
 
         self.login_email = QLineEdit()
         self.login_email.setPlaceholderText("Email")
-        self.login_email.setStyleSheet("padding: 10px; font-size: 14px;")
+        self.login_email.setStyleSheet("padding: 10px; font-size: 14px; color: white;")
 
         self.login_password = QLineEdit()
         self.login_password.setPlaceholderText("Password")
         self.login_password.setEchoMode(QLineEdit.EchoMode.Password)
-        self.login_password.setStyleSheet("padding: 10px; font-size: 14px;")
+        self.login_password.setStyleSheet("padding: 10px; font-size: 14px; color: white;")
 
         login_btn = QPushButton("Login")
         login_btn.setStyleSheet(self.button_style())
@@ -80,25 +80,25 @@ class Login_signup(QMainWindow):
 
         self.signup_first_name = QLineEdit()
         self.signup_first_name.setPlaceholderText("First Name")
-        self.signup_first_name.setStyleSheet("padding: 10px; font-size: 14px;")
+        self.signup_first_name.setStyleSheet("padding: 10px; font-size: 14px; color: white;")
 
         self.signup_last_name = QLineEdit()
         self.signup_last_name.setPlaceholderText("Last Name")
-        self.signup_last_name.setStyleSheet("padding: 10px; font-size: 14px;")
+        self.signup_last_name.setStyleSheet("padding: 10px; font-size: 14px; color: white;")
 
         self.signup_email = QLineEdit()
         self.signup_email.setPlaceholderText("Email")
-        self.signup_email.setStyleSheet("padding: 10px; font-size: 14px;")
+        self.signup_email.setStyleSheet("padding: 10px; font-size: 14px; color: white;")
 
         self.signup_password = QLineEdit()
         self.signup_password.setPlaceholderText("Password")
         self.signup_password.setEchoMode(QLineEdit.EchoMode.Password)
-        self.signup_password.setStyleSheet("padding: 10px; font-size: 14px;")
+        self.signup_password.setStyleSheet("padding: 10px; font-size: 14px; color: white;")
 
         self.signup_confirm = QLineEdit()
         self.signup_confirm.setPlaceholderText("Confirm Password")
         self.signup_confirm.setEchoMode(QLineEdit.EchoMode.Password)
-        self.signup_confirm.setStyleSheet("padding: 10px; font-size: 14px;")
+        self.signup_confirm.setStyleSheet("padding: 10px; font-size: 14px; color: white;")
 
         register_btn = QPushButton("Register")
         register_btn.setStyleSheet(self.button_style())
@@ -187,10 +187,4 @@ class Login_signup(QMainWindow):
         self.current_user = User(user_id, first_name, last_name, email,password,False, None)
         self.db.update_user_status(user_id, True)
         self.on_login_success(self.current_user)
-
-# if __name__ == "__main__":
-#     app = QApplication(sys.argv)
-#     win = MainWindow()
-#     win.show()
-#     sys.exit(app.exec())
 
