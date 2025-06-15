@@ -16,6 +16,7 @@ class MessagingApp:
     def on_login_success(self, user):
         self.login_signup.hide()
         self.mainwindow = MainWindow(self.db, user)
+        self.mainwindow.Login_Signup = self.login_signup
         self.mainwindow.show()
         
         
